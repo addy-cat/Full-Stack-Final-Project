@@ -1,14 +1,18 @@
 import React from 'react';
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import './App.css';
 import MainContainer from './containers/MainContainer.js'
 import Nav from './containers/Nav.js'
 
 function App() {
   return (
-    <div className="App">
-      <Nav />
-      <MainContainer />
-    </div>
+    <ThemeProvider prefixes={{bth: 'my-btn'}}>
+      <div className="App">
+        
+        <Nav />
+        <MainContainer />
+      </div>
+    </ThemeProvider>
   );
 }
 
