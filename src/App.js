@@ -17,7 +17,6 @@ function App() {
   return (
     <ThemeProvider prefixes={{bth: 'my-btn'}}>
       <div className="App">
-        <Nav />
         <MainContainer />
       </div>
     </ThemeProvider>

@@ -1,9 +1,14 @@
 import React from 'react'
 import PlayerInfoCard from '../components/PlayerInfoCard';
+import BasicGameBoard from '../components/BasicGameBoard'
 
 function MainContainer() {
     return (
-        <PlayerInfoCard />
+        <div>
+            <BasicGameBoard />
+            <PlayerInfoCard />
+        </div>
+        
     );
 }
 

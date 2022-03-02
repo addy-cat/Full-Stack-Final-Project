@@ -2,6 +2,15 @@
   position: fixed; 
   right: 5%;
   bottom: 5%;
-  right: 5%;
-  
+}
+
+.game-board {
+  display: grid;
+  width: 670px;
+  height: 520px;
+  margin: auto;
+}
+
+.tile {
+  border-style: solid;
 }
