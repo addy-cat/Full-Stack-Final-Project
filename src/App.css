@@ -1,7 +1,8 @@
 .card {
-  position: fixed; 
-  right: 5%;
-  bottom: 5%;
+  
+  right: -20%;
+  top: 30%;
+  bottom: 0%;
 }
 
 .game-board {

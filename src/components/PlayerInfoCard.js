@@ -1,12 +1,11 @@
 import React from 'react'
+import DropdownMenus from './DropdownMenus';
 
 class PlayerInfoCard extends React.Component {
     render() {
         return (
-                
-            <div class="container">
-            <div class="column">
-            <div class="row-md">
+            <div class="col-sm" style={{left: "500px", bottom: "600px", left: "650px"}}>
+            <DropdownMenus />
             <div class="card " style={{width: '30rem'}}>
                   <div class= "card-body">
                     <h5 style={{fontSize: '25px'}} class="d-flex justify-content-center card-title">Player Information</h5>
@@ -34,12 +33,10 @@ class PlayerInfoCard extends React.Component {
               </div> 
               </div>
               </div>
-            </div>
-            </div>
+            
+          
         )
-    }
-      
-        
+    }      
 }
 
 export default PlayerInfoCard;

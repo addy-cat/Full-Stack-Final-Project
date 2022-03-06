@@ -1,12 +1,12 @@
 import React from 'react'
 import PlayerInfoCard from '../components/PlayerInfoCard';
-import BasicGameBoard from '../components/BasicGameBoard'
+import Board from '../components/Board';
+import DropdownMenus from '../components/DropdownMenus';
 
 function MainContainer() {
     return (
         <div>
-            <BasicGameBoard />
-            <PlayerInfoCard />
+            <Board />
         </div>
         
     );
