@@ -1,6 +1,11 @@
 module.exports = class User{
-    constructor(name, socket){
-        this.name = name;
+    constructor(user, socket){
+        this.user = user;
         this.socket = socket;
+        this.image = null;
+    }
+
+    setImage(image){
+        this.image = image;
     }
 }

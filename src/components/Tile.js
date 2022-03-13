@@ -22,7 +22,7 @@ class Tile extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            color: props.color,
+            color: null,
             piece: props.piece
         };
         this.onSelect = this.onSelect.bind(this);
@@ -42,21 +42,21 @@ class Tile extends React.Component {
     }
 
     onSelect(){
-        if (this.props.color === "black"){
+        if (true){
             this.setState({
-                color: "#333336"
+                color: "rgba(200,100,0,.5)"
             });
         } else {
             this.setState({
-                color: "#C1C1CB"
+                color: "rgba(200,100,0,.5)"
             });
         }
         this.props.onSelect(this.props.col, this.props.row)
     }
 
     render() {
-        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color}}>
-           <img style={{position: "absolute", paddingBottom: "30px", height: "10%"}} src={this.choosePiece(this.state.piece)} alt="Chess Piece"></img>
+        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color ? this.state.color : "", backgroundBlenMode: "multiply", backgroundImage: `url("${this.props.image}")`}}>
+           <img style={{position: "absolute", paddingBottom: "5%", height: "12%"}} src={this.choosePiece(this.state.piece)} alt="Chess Piece"></img>
         </div>
     }
 }
