@@ -24,7 +24,8 @@ class PlayerInfoCard extends React.Component {
     onSubmit(){
         this.state.socket.emit("joinRoom", JSON.stringify({
             user: this.state.user, 
-            room: this.state.room
+            room: this.state.room, 
+            image: this.state.image
         }));
         this.props.setUserRoom(this.state.user, this.state.room);
     }
@@ -38,7 +39,7 @@ class PlayerInfoCard extends React.Component {
 
     render() {
         return (
-            <div className="col-sm" style={{left: "500px", bottom: "600px"}}>
+            <div className="col-sm" style={{left: "500px", bottom: "700px"}}>
                 <DropdownMenus setImage={this.setImage}/>
                 <div className="card " style={{width: '30rem'}}>
                     <div className= "card-body">

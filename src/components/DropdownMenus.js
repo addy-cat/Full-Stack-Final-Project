@@ -22,7 +22,7 @@ class DropdownMenus extends React.Component {
             <div className="card " style={{width: '30rem'}}>
                 <div className="card-body">
                 <div className="d-flex justify-content-center" >
-                    <div className="row-sm">
+                    
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Themes
@@ -32,10 +32,10 @@ class DropdownMenus extends React.Component {
                                 <a className="dropdown-item" href="#">Another action</a>
                                 <a className="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </div>
+                        
                     </div>
 
-                    <div className="row-sm">
+                    
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Music
@@ -45,17 +45,17 @@ class DropdownMenus extends React.Component {
                                 <a className="dropdown-item" href="#">Another action</a>
                                 <a className="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </div>
+                        
                     </div>
 
-                    <div className="row-sm">
+                    
                         <div className="button">
                             <button onClick={this.loadImage} className="btn btn-primary" type="button" id="Button">
                                 Change player icon
                             </button>
                             
                         </div>
-                    </div>
+                    
                     </div>
                 </div>            
             </div>

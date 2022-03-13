@@ -5,6 +5,7 @@ import {p} from './Piece.js';
 import PlayerInfoCard  from './PlayerInfoCard.js';
 import PopUp from './PopUp.js';
 import Error from './Error.js';
+import ChoosePiece from './ChoosePiece.js';
 import {io} from 'socket.io-client';
 
 class Board extends React.Component {
@@ -76,6 +77,7 @@ class Board extends React.Component {
     }
 
     onSelect(i, j){
+
         if(this.state.firstSelect == null){
             this.setState((prevState) => {
                 let tempState = prevState;
@@ -85,21 +87,28 @@ class Board extends React.Component {
             });
         }
         else if(i !== this.state.firstSelect[0] || j !== this.state.firstSelect[1]) {
-            this.setState((prevState) => {
-                let tempState = prevState;
-                let prev = tempState.boardState[prevState.firstSelect[0]][prevState.firstSelect[1]];
-                tempState.boardState[i][j] = new Piece(prev.piece, prev.color);
-                tempState.boardState[prevState.firstSelect[0]][prevState.firstSelect[1]] = null;
-                this.state.socket.emit("move", JSON.stringify({
-                    user: tempState.user, 
-                    room: tempState.room, 
-                    from: [prevState.firstSelect[0], prevState.firstSelect[1]],
-                    to: [i, j]
-                 }));
-                tempState.firstSelect = null;
-                    
-                return tempState;
-            });
+            if(this.state.boardState[this.state.firstSelect[0]][this.state.firstSelect[1]].validateMove(i, j, this.state.firstSelect[0], this.state.firstSelect[1])){
+                this.setState((prevState) => {
+                    let tempState = prevState;
+                    let prev = tempState.boardState[prevState.firstSelect[0]][prevState.firstSelect[1]];
+                    tempState.boardState[i][j] = new Piece(prev.piece, prev.color);
+                    tempState.boardState[prevState.firstSelect[0]][prevState.firstSelect[1]] = null;
+                    this.state.socket.emit("move", JSON.stringify({
+                        user: tempState.user, 
+                        room: tempState.room, 
+                        from: [prevState.firstSelect[0], prevState.firstSelect[1]],
+                        to: [i, j]
+                    }));
+                    tempState.firstSelect = null;
+                        
+                    return tempState;
+                });
+            }
+            else {
+                this.setState({
+                    firstSelect: null
+                });
+            }
         }
     }
 
@@ -132,7 +141,7 @@ class Board extends React.Component {
                     <ul style={{listStyle:"none"}}>{this.generateRows()}</ul>
                     </div>
                 </div>
-               
+                <ChoosePiece />
                 <PlayerInfoCard socket={this.state.socket} setUserRoom={this.setUserRoom}/>
             
             </div>

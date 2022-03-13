@@ -7,6 +7,27 @@ class Piece {
         this.piece = piece;
         this.color = color;
     }
+
+    validateMove(prevI, prevJ, currI, currJ){
+        switch(this.piece){
+            case p.pawn:
+                let direction = this.color === 'black' ? 1 : -1;
+                return (currJ === prevJ) && ((currI - prevI) * direction === -1);
+            case p.knight:
+                return (Math.abs(prevI - currI) === 1 && Math.abs(prevJ - currJ) === 2) || (Math.abs(prevJ - currJ) === 1 && Math.abs(prevI - currI) === 2);
+            case p.bishop:
+                return (Math.abs(prevI - currI) === Math.abs(prevJ - currJ));
+            case p.rook:
+                //Rook has been moved to either a place on the same row, or the same column
+                return (prevI === currI || prevJ === currJ);
+            case p.queen:
+                return (prevI === currI || prevJ === currJ) || (Math.abs(prevI - currI) === Math.abs(prevJ - currJ));
+            case p.king:
+                return (Math.abs(prevI - currI) === 1 || Math.abs(prevI - currI) === 0) && (Math.abs(prevJ - currJ) === 1 || Math.abs(prevJ - currJ) === 0);
+            default:
+                console.log("Invalid piece");
+        }
+    }
 }
 
 export {Piece, p, r, c}

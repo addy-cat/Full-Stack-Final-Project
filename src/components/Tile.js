@@ -1,21 +1,21 @@
 import React from 'react'
 
 var player1_dict = {
-    0: "pawn.png",
-    1: "knight.png",
-    2: "bishop.png",
-    3: "rook.png",
-    4: "queen.png",
-    5: "king.png"
+    0: "pawn_new.png",
+    1: "knight_new.png",
+    2: "bishop_new.png",
+    3: "rook_new.png",
+    4: "queen_new.png",
+    5: "king_new.png"
 }
 
 var player2_dict = {
-    0: "pawn2.png",
-    1: "knight2.png",
-    2: "bishop2.png",
-    3: "rook2.png",
-    4: "queen2.png",
-    5: "king2.png"
+    0: "pawn_new2.png",
+    1: "knight_new2.png",
+    2: "bishop_new2.png",
+    3: "rook_new2.png",
+    4: "queen_new2.png",
+    5: "king_new2.png"
 }
 class Tile extends React.Component {
 
@@ -55,9 +55,7 @@ class Tile extends React.Component {
     }
 
     render() {
-        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color ? this.state.color : "", backgroundBlenMode: "multiply", backgroundImage: `url("${this.props.image}")`}}>
-           <img style={{position: "absolute", paddingBottom: "5%", height: "12%"}} src={this.choosePiece(this.state.piece)} alt="Chess Piece"></img>
-        </div>
+        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color ? this.state.color : "", backgroundImage: `${this.state.piece == null ? "" : `url(${this.choosePiece(this.state.piece)}), `}url(${this.props.image})`, backgroundSize: "100%"}}></div>
     }
 }
 
