@@ -23,14 +23,14 @@ class Board extends React.Component {
             user: null,
             room: null,
             boardState: [
-                [new Piece(p.rook, theirColor), new Piece(p.knight, theirColor), new Piece(p.bishop, theirColor), new Piece(p.king, theirColor), new Piece(p.queen, theirColor), new Piece(p.bishop, theirColor), new Piece(p.knight, theirColor), new Piece(p.rook, theirColor)],
+                [new Piece(p.rook, theirColor), new Piece(p.knight, theirColor), new Piece(p.bishop, theirColor), new Piece(p.queen, theirColor), new Piece(p.king, theirColor), new Piece(p.bishop, theirColor), new Piece(p.knight, theirColor), new Piece(p.rook, theirColor)],
                 [new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor), new Piece(p.pawn, theirColor)],
                 [null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null],
                 [new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor), new Piece(p.pawn, myColor)],
-                [new Piece(p.rook, myColor), new Piece(p.knight, myColor), new Piece(p.bishop, myColor), new Piece(p.king, myColor), new Piece(p.queen, myColor), new Piece(p.bishop, myColor), new Piece(p.knight, myColor), new Piece(p.rook, myColor)],
+                [new Piece(p.rook, myColor), new Piece(p.knight, myColor), new Piece(p.bishop, myColor), new Piece(p.queen, myColor), new Piece(p.king, myColor), new Piece(p.bishop, myColor), new Piece(p.knight, myColor), new Piece(p.rook, myColor)],
             ], 
             socket: io(`http://${window.location.hostname}:3001`),
             showWaitingMessage: false,
@@ -207,7 +207,7 @@ class Board extends React.Component {
 
     generateTiles(colNum){
         return this.state.boardState[colNum].map((col, index) => {
-            return <Tile key={index} onSelect={this.onSelect} piece={col} row={index} col={colNum} image={(index + colNum) % 2 === 0 ? "dark_tile.jpg" : "light_tile.jpg"}/>
+            return <Tile key={index} onSelect={this.onSelect} piece={col} row={index} col={colNum} image={(index + colNum) % 2 === 1 ? "dark_tile.jpg" : "light_tile.jpg"}/>
         });
     }
 
