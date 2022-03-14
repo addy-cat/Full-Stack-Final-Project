@@ -35,8 +35,7 @@ class Board extends React.Component {
             socket: io(`http://${window.location.hostname}:3001`),
             showWaitingMessage: false,
             error: null, 
-            showPieceSelector: null, 
-            theme: null,
+            showPieceSelector: null,
             turn: true, 
             winCondition: false,
             loseCondition: false
@@ -219,27 +218,29 @@ class Board extends React.Component {
     }
 
     setTheme(theme){
-        this.setState({
-            theme: theme
-        })
+        this.props.setTheme(theme);
     }
 
     render() {
         return(
            
-            <div style={{backgroundImage: this.state.theme === null ? "" : `url(${this.state.theme})`}}className="container" >
-                 {this.state.winCondition === true ? <YouWin /> : null}
-                 {this.state.loseCondition === true ? <YouLose /> : null} 
-                <div className="col-sm" style={{right: "0%", left: "-30%"}}>
-                    <div>
-                    {this.state.error != null ? <Error error_msg={this.state.error}/> : null}
-                    {this.state.showWaitingMessage ? <PopUp/> : null}
-                    <ul style={{listStyle:"none"}}>{this.generateRows()}</ul>
+            <div className="container" >
+                <div className="row">
+                    <div className="col-lg" style={{zIndex: "2", right: "29%", paddingTop: "3%"}}>
+                        <div style={{width: "200%"}}>
+                        {this.state.winCondition === true ? <YouWin /> : null}
+                        {this.state.loseCondition === true ? <YouLose /> : null} 
+                        {this.state.error != null ? <Error error_msg={this.state.error}/> : null}
+                        {this.state.showWaitingMessage ? <PopUp/> : null}
+                        <ul style={{listStyle:"none"}}>{this.generateRows()}</ul>
+                        </div>
+                    </div>
+                    <div className="col-sm">
+                        {this.state.showPieceSelector !== null ? <ChoosePiece getPiece={this.getChosenPiece} /> : null}
+                        <Turn turn={this.state.turn ? "Your turn" : "Their turn"}/>
+                        <PlayerInfoCard setTheme={this.setTheme} socket={this.state.socket} setUserRoom={this.setUserRoom}/>
                     </div>
                 </div>
-                {this.state.showPieceSelector !== null ? <ChoosePiece getPiece={this.getChosenPiece} /> : null}
-                <Turn turn={this.state.turn ? "Your turn" : "Their turn"}/>
-                <PlayerInfoCard setTheme={this.setTheme} socket={this.state.socket} setUserRoom={this.setUserRoom}/>
             </div>
         )
     }

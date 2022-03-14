@@ -17,15 +17,15 @@ class DropdownMenus extends React.Component {
         }
     }
 
+    getRandomInt() {
+        return Math.floor(Math.random() * (19 - 0) + 0); 
+    }
+
     async loadTheme() {
         try {
-            let config = {
-                headers: {
-                    Authorization: '563492ad6f9170000100000100a7abcccba74d05b5291a4c5a43b7a6'
-                }
-            }
-            let response = await axios.get('https://api.pexels.com/v1/search?query=nature&per_page=1&size=medium', config);
-            this.props.setTheme(response.data.photos[0].src.original)
+            let response = await axios.get('https://pixabay.com/api/?key=26133044-1e586225ee12bcdccc3a2c911&q=trees+nature&min_height=1000')//, config);
+            //console.log(response.data.hits[this.getRandomInt()].largeImageURL)
+            this.props.setTheme(response.data.hits[this.getRandomInt()].largeImageURL)
         } catch(err) {
             console.log(err)
         }
@@ -34,17 +34,17 @@ class DropdownMenus extends React.Component {
 
     render() {
         return (
-            <div className="card " style={{width: '30rem'}}>
+            <div className="card " style={{width: '30rem', backgroundColor:'#4b84c0'}}>
                 <div className="card-body">
                     <div className="d-flex justify-content-center" >
                         <div className="button">
-                            <button onClick={this.loadTheme} className="btn btn-primary bg-info" type="button" id="Button">
+                            <button style={{backgroundColor: "#223f5e" }} onClick={this.loadTheme} className="btn btn-primary" type="button" id="Button">
                                 Change background theme
                             </button>
                         </div>
                     
                         <div className="button" style={{paddingLeft: "4%"}}>
-                            <button onClick={this.loadImage} className="btn btn-primary bg-info" type="button" id="Button">
+                            <button style={{backgroundColor: "#223f5e" }} onClick={this.loadImage} className="btn btn-primary" type="button" id="Button">
                                 Change player icon
                             </button> 
                         </div>

@@ -5,7 +5,7 @@ function MainContainer(props) {
 
     return (
         <div>
-            <Board />
+            <Board setTheme={props.setTheme}/>
         </div>
         
     );
