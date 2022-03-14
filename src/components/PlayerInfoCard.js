@@ -8,7 +8,8 @@ class PlayerInfoCard extends React.Component {
             room: "",
             socket: this.props.socket,
             image: null, 
-            theirImage: null
+            theirImage: null,
+            theme: null
         }
 
         this.props.socket.on('cat', (data) => {
@@ -19,6 +20,7 @@ class PlayerInfoCard extends React.Component {
         });
         this.onSubmit = this.onSubmit.bind(this);
         this.setImage = this.setImage.bind(this);
+        this.setTheme = this.setTheme.bind(this);
     }
 
     onSubmit(){
@@ -37,15 +39,19 @@ class PlayerInfoCard extends React.Component {
         this.state.socket.emit('cat', JSON.stringify({user: this.state.user, room: this.state.room, image: image}));
     }
 
+    setTheme(theme) {
+        this.props.setTheme(theme);
+    }
+
     render() {
         return (
             <div className="col-sm" style={{left: "500px", bottom: "700px"}}>
-                <DropdownMenus setImage={this.setImage}/>
+                <DropdownMenus setImage={this.setImage} setTheme={this.setTheme}/>
                 <div className="card " style={{width: '30rem'}}>
                     <div className= "card-body">
                         <h5 style={{fontSize: '25px'}} className="d-flex justify-content-center card-title">Player Information</h5>
                         <form>   
-                            <button style={{width: '9rem'}} type="button" className=" btn btn-primary mx-auto d-block mt-4" onClick={this.onSubmit}>Start Game!</button>
+                            <button style={{width: '9rem'}} type="button" className=" btn btn-primary mx-auto d-block mt-4 bg-info" onClick={this.onSubmit}>Start Game!</button>
                             <div className="d-inline-flex mt-5">
                                 <label style={{width: '13rem'}} htmlFor="inputUsername" className="form-label">Your username: </label>
                                 <input placeholder="Pick a username" type="username" className="form-control ml-2" name="inputUsername" onChange={event => this.setState({user: event.target.value})} value={this.state.user}/>

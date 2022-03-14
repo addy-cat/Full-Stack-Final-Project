@@ -14,10 +14,10 @@ class ChoosePiece extends React.Component {
                             Piece
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <b className="dropdown-item" >Queen</b>
-                            <b className="dropdown-item" >Knight</b>
-                            <b className="dropdown-item" >Bishop</b>
-                            <b className="dropdown-item" >Rook</b>
+                            <b className="dropdown-item" onClick={() => this.props.getPiece(4)}>Queen</b>
+                            <b className="dropdown-item" onClick={() => this.props.getPiece(1)}>Knight</b>
+                            <b className="dropdown-item" onClick={() => this.props.getPiece(2)}>Bishop</b>
+                            <b className="dropdown-item" onClick={() => this.props.getPiece(3)}>Rook</b>
                         </div>
                     </div>
                 </div>

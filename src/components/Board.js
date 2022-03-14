@@ -6,6 +6,8 @@ import PlayerInfoCard  from './PlayerInfoCard.js';
 import PopUp from './PopUp.js';
 import Error from './Error.js';
 import ChoosePiece from './ChoosePiece.js';
+import Turn from './Turn';
+import DropdownMenus from './DropdownMenus.js';
 import {io} from 'socket.io-client';
 
 class Board extends React.Component {
@@ -33,7 +35,9 @@ class Board extends React.Component {
             socket: io(`http://${window.location.hostname}:3001`),
             showWaitingMessage: false,
             error: null, 
-            showPieceSelector: null
+            showPieceSelector: null, 
+            theme: null,
+            turn: true
         };
 
         this.state.socket.on("error", (data) => {
@@ -41,18 +45,32 @@ class Board extends React.Component {
             this.setState({
                 error: message.error
             });
-        })
+        });
+
+        this.state.socket.on('promote', (data) => {
+            let message = JSON.parse(data);
+            let tempBoard = this.state.boardState;
+            tempBoard[message.promote[0]][message.promote[1]].piece = message.piece;
+            this.setState({
+                boardState: tempBoard
+            })
+        });
 
         this.state.socket.on("joinRoom", (data) => {
             let message = JSON.parse(data);
-            if(message.user2 && message.user2 === true){
+            if(message.user2 === true){
+                //When WE join a room that another player has made, invert the colors of the board for us and set our turn to be false
+                //Whoever creates the room goes first.
                 let tempBoard = this.state.boardState.map(row => {
                     return row.map((piece)=>{
                         return piece == null ? null : new Piece(piece.piece, piece.color === "white" ? "black" : "white"); 
                     })
                 });
                 this.setState({
-                    boardState: tempBoard
+                    boardState: tempBoard, 
+                    myColor: this.state.theirColor,
+                    theirColor: this.state.myColor, 
+                    turn: false
                 });
             }
 
@@ -78,6 +96,7 @@ class Board extends React.Component {
                 let prev = tempState.boardState[from[0]][from[1]];
                 tempState.boardState[to[0]][to[1]] = new Piece(prev.piece, prev.color);
                 tempState.boardState[from[0]][from[1]] = null;
+                tempState.turn = true;
                 return tempState;
             })
         }); 
@@ -86,6 +105,18 @@ class Board extends React.Component {
         this.generateRows = this.generateRows.bind(this);
         this.generateTiles = this.generateTiles.bind(this);
         this.setUserRoom = this.setUserRoom.bind(this);
+        this.getChosenPiece = this.getChosenPiece.bind(this);
+        this.setTheme = this.setTheme.bind(this);
+    }
+
+    getChosenPiece(piece){
+        let tempBoard = this.state.boardState;
+        tempBoard[this.state.showPieceSelector[0]][this.state.showPieceSelector[1]].piece = piece;
+        this.state.socket.emit('promote', JSON.stringify({user: this.state.user, room: this.state.room, promote: this.convertMove(this.state.showPieceSelector[0], this.state.showPieceSelector[1]), piece: piece}));
+        this.setState({
+            boardState: tempBoard,
+            showPieceSelector: null
+        });
     }
 
     onSelect(i, j){
@@ -100,7 +131,12 @@ class Board extends React.Component {
         else if(i !== this.state.firstSelect[0] || j !== this.state.firstSelect[1]) {
             let firstSelect = this.state.firstSelect;
             let prev = this.state.boardState[firstSelect[0]][firstSelect[1]];
-            if(prev.validateMove(i, j, firstSelect[0], firstSelect[1])){
+            if(this.state.turn && prev.color === this.state.myColor && prev.validateMove(i, j, firstSelect[0], firstSelect[1])){
+                if(prev.piece === p.pawn && i === 0){
+                    this.setState({
+                        showPieceSelector: [i, j]
+                    });
+                }
                 this.setState((prevState) => {
                     let tempState = prevState;
                     tempState.boardState[i][j] = new Piece(prev.piece, prev.color);
@@ -114,7 +150,7 @@ class Board extends React.Component {
                         to: t
                     }));
                     tempState.firstSelect = null;
-                        
+                    tempState.turn = false;    
                     return tempState;
                 });
             }
@@ -149,9 +185,15 @@ class Board extends React.Component {
         });
     }
 
+    setTheme(theme){
+        this.setState({
+            theme: theme
+        })
+    }
+
     render() {
         return(
-            <div className="container">
+            <div style={{backgroundImage: this.state.theme === null ? "" : `url(${this.state.theme})`}}className="container" >
                 <div className="col-sm" style={{right: "0%", left: "-30%"}}>
                     <div>
                     {this.state.error != null ? <Error error_msg={this.state.error}/> : null}
@@ -159,9 +201,9 @@ class Board extends React.Component {
                     <ul style={{listStyle:"none"}}>{this.generateRows()}</ul>
                     </div>
                 </div>
-                {this.state.showPieceSelector !== null ? <ChoosePiece /> : null}
-                <PlayerInfoCard socket={this.state.socket} setUserRoom={this.setUserRoom}/>
-            
+                {this.state.showPieceSelector !== null ? <ChoosePiece getPiece={this.getChosenPiece} /> : null}
+                <Turn turn={this.state.turn ? "Your turn" : "Their turn"}/>
+                <PlayerInfoCard setTheme={this.setTheme} socket={this.state.socket} setUserRoom={this.setUserRoom}/>
             </div>
         )
     }

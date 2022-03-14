@@ -23,6 +23,17 @@ io.on('connection', (socket) => {
     let message = JSON.parse(data);
     console.log(`Error: ${message.error}`);
   });
+  //Handles promoting a pawn
+  socket.on('promote', (data) => {
+    let message = JSON.parse(data);
+    if(RoomList[message.room] && RoomList[message.room][0] && RoomList[message.room][0].user === message.user){
+      RoomList[message.room][1].socket.emit('promote', JSON.stringify({promote: message.promote, piece: message.piece}));
+      console.log(`User ${message.user} requests to promote piece at ${message.promote}, propagating to ${RoomList[message.room][1].user}`);
+    } else if(RoomList[message.room] && RoomList[message.room][1] && RoomList[message.room][1].user === message.user){
+      RoomList[message.room][0].socket.emit('promote', JSON.stringify({promote: message.promote, piece: message.piece}));
+      console.log(`User ${message.user} requests to promote piece at ${message.promote}, propagating to ${RoomList[message.room][0].user}`);
+    }
+  })
 
   socket.on('joinRoom', (data) => {
     let message = JSON.parse(data);
