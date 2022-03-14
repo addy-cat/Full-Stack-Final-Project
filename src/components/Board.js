@@ -1,14 +1,14 @@
 import React from 'react'
 import Tile from './Tile.js'
-import {Piece} from './Piece.js'
-import {p} from './Piece.js';
+import {Piece, p} from './Piece.js'
 import PlayerInfoCard  from './PlayerInfoCard.js';
 import PopUp from './PopUp.js';
 import Error from './Error.js';
 import ChoosePiece from './ChoosePiece.js';
 import Turn from './Turn';
-import DropdownMenus from './DropdownMenus.js';
 import {io} from 'socket.io-client';
+import YouWin from './YouWin.js';
+import YouLose from './YouLose.js'
 
 class Board extends React.Component {
 
@@ -37,7 +37,9 @@ class Board extends React.Component {
             error: null, 
             showPieceSelector: null, 
             theme: null,
-            turn: true
+            turn: true, 
+            winCondition: false,
+            loseCondition: false
         };
 
         this.state.socket.on("error", (data) => {
@@ -66,6 +68,13 @@ class Board extends React.Component {
                         return piece == null ? null : new Piece(piece.piece, piece.color === "white" ? "black" : "white"); 
                     })
                 });
+
+                let temp = tempBoard[0][3];
+                tempBoard[0][3] = tempBoard[0][4];
+                tempBoard[0][4] = temp;
+                temp = tempBoard[7][3];
+                tempBoard[7][3] = tempBoard[7][4];
+                tempBoard[7][4] = temp;
                 this.setState({
                     boardState: tempBoard, 
                     myColor: this.state.theirColor,
@@ -91,6 +100,10 @@ class Board extends React.Component {
             let message = JSON.parse(data);
             let from = message.from;
             let to = message.to;
+            let loseCondition = false;
+            if(this.state.boardState[to[0]][to[1]] && this.state.boardState[to[0]][to[1]].piece === p.king){
+                loseCondition = true;
+            }
             this.setState((prevState) => {
                 let tempState = prevState;
                 let prev = tempState.boardState[from[0]][from[1]];
@@ -99,6 +112,11 @@ class Board extends React.Component {
                 tempState.turn = true;
                 return tempState;
             })
+            if(loseCondition){
+                this.setState({
+                    loseCondition: true
+                });
+            }
         }); 
 
         this.onSelect = this.onSelect.bind(this);
@@ -131,12 +149,20 @@ class Board extends React.Component {
         else if(i !== this.state.firstSelect[0] || j !== this.state.firstSelect[1]) {
             let firstSelect = this.state.firstSelect;
             let prev = this.state.boardState[firstSelect[0]][firstSelect[1]];
-            if(this.state.turn && prev.color === this.state.myColor && prev.validateMove(i, j, firstSelect[0], firstSelect[1])){
+            if(this.state.turn && 
+               prev.color === this.state.myColor &&
+               (this.state.boardState[i][j] === null || this.state.boardState[i][j].color === this.state.theirColor) &&
+               prev.validateMove(i, j, firstSelect[0], firstSelect[1], this.state.boardState[i][j])){
                 if(prev.piece === p.pawn && i === 0){
                     this.setState({
                         showPieceSelector: [i, j]
                     });
                 }
+                let winCondition = false;
+                if(this.state.boardState[i][j] && this.state.boardState[i][j].piece === p.king) {
+                    winCondition = true;
+                }
+
                 this.setState((prevState) => {
                     let tempState = prevState;
                     tempState.boardState[i][j] = new Piece(prev.piece, prev.color);
@@ -153,6 +179,13 @@ class Board extends React.Component {
                     tempState.turn = false;    
                     return tempState;
                 });
+
+                if(winCondition){
+                    this.setState({
+                        winCondition: true
+                    })
+                }
+
             }
             else {
                 this.setState({
@@ -193,7 +226,10 @@ class Board extends React.Component {
 
     render() {
         return(
+           
             <div style={{backgroundImage: this.state.theme === null ? "" : `url(${this.state.theme})`}}className="container" >
+                 {this.state.winCondition === true ? <YouWin /> : null}
+                 {this.state.loseCondition === true ? <YouLose /> : null} 
                 <div className="col-sm" style={{right: "0%", left: "-30%"}}>
                     <div>
                     {this.state.error != null ? <Error error_msg={this.state.error}/> : null}
