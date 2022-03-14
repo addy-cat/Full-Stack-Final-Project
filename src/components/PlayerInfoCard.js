@@ -66,19 +66,19 @@ class PlayerInfoCard extends React.Component {
                         </form>  
                         <div className="row" >
                             <div className="col-sm" style={{left:"3rem"}}>
-                            <figure>
+                            
                                 <img src={this.state.image != null ? this.state.image : "default_cat2.jpg"} alt="Cat 2" style={{ width: '7rem', height: '6rem'}} className="img-thumbnail"></img>
-                                <figcaption>Player 2</figcaption>
-                            </figure>
+                                
+                            
                             </div>
                             <div className="col-sm" style={{left:"2.5rem", paddingTop:"1.5rem"}}>
                                 <h5 style={{fontSize: '2.5rem'}}>VS</h5>
                             </div>
                             <div className="col-sm" style={{right:"2.2rem"}}>
-                                <figure>
+                                
                                 <img src={this.state.theirImage != null ? this.state.theirImage : "default_cat.jpg"} alt="Cat 1" style={{ width: '7rem', height: '6rem'}} className="img-thumbnail"></img>
-                                <figcaption>Player 1</figcaption>
-                                </figure>
+                               
+                                
                             </div>
                         </div>
 

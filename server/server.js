@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     //If user has already joined room
     else if(message.user === RoomList[message.room][0].user || (RoomList[message.room][1] && message.user === RoomList[message.room][1].user)){
       //Tell user they need to wait
-      socket.emit('error', JSON.stringify({error: "You already joined the room, wait for another player"}));
+      socket.emit('error', JSON.stringify({error: "You already started a game, wait for another player"}));
       console.log(`User ${message.user} tried to join room ${message.room}, but was already in it`);
     } 
     //If there is room for another user in the room
