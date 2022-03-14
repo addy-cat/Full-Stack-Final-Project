@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
       console.log(`User ${message.user} created Room ${message.room}`);
     }
     //If user has already joined room
-    else if(message.user === RoomList[message.room][0].user){
+    else if(message.user === RoomList[message.room][0].user || (RoomList[message.room][1] && message.user === RoomList[message.room][1].user)){
       //Tell user they need to wait
       socket.emit('error', JSON.stringify({error: "You already joined the room, wait for another player"}));
       console.log(`User ${message.user} tried to join room ${message.room}, but was already in it`);
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
       //Add user to room
       RoomList[message.room][1] = new User(message.user, socket);
       //Tell user they have been added successfully
-      socket.emit("joinRoom", JSON.stringify({success: "joined"}));
+      socket.emit("joinRoom", JSON.stringify({success: "joined", user2: true}));
       //Tell first user that a user has joined
       RoomList[message.room][0].socket.emit("joinRoom", JSON.stringify({success: "joined"}));
       //Send first user second users profile

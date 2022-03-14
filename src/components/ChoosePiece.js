@@ -14,12 +14,10 @@ class ChoosePiece extends React.Component {
                             Piece
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a className="dropdown-item" >King</a>
-                            <a className="dropdown-item" >Queen</a>
-                            <a className="dropdown-item" >Knight</a>
-                            <a className="dropdown-item" >Bishop</a>
-                            <a className="dropdown-item" >Rook</a>
-                            <a className="dropdown-item" >Pawn</a>
+                            <b className="dropdown-item" >Queen</b>
+                            <b className="dropdown-item" >Knight</b>
+                            <b className="dropdown-item" >Bishop</b>
+                            <b className="dropdown-item" >Rook</b>
                         </div>
                     </div>
                 </div>
