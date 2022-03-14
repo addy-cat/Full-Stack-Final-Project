@@ -11,8 +11,8 @@ class Piece {
     validateMove(prevI, prevJ, currI, currJ){
         switch(this.piece){
             case p.pawn:
-                let direction = this.color === 'black' ? 1 : -1;
-                return (currJ === prevJ) && ((currI - prevI) * direction === -1);
+                //Functionality after the OR is saying that if a pawn is in its home row of 6, then it can move two places forward
+                return (currJ === prevJ) && ((currI - prevI) === 1 || (currI === 6 && currI - prevI === 2));
             case p.knight:
                 return (Math.abs(prevI - currI) === 1 && Math.abs(prevJ - currJ) === 2) || (Math.abs(prevJ - currJ) === 1 && Math.abs(prevI - currI) === 2);
             case p.bishop:

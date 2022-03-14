@@ -55,7 +55,7 @@ class Tile extends React.Component {
     }
 
     render() {
-        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color ? this.state.color : "", backgroundImage: `${this.state.piece == null ? "" : `url(${this.choosePiece(this.state.piece)}), `}url(${this.props.image})`, backgroundSize: "100%"}}></div>
+        return <div onClick={this.onSelect} style={{padding: "5%", display: "inline-block", backgroundColor: this.state.color ? this.state.color : "", backgroundImage: `${this.props.piece == null ? "" : `url(${this.choosePiece(this.props.piece)}), `}url(${this.props.image})`, backgroundSize: "100%"}}></div>
     }
 }
 
