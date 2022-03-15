@@ -1,7 +1,7 @@
 # Chess app for Full-Stack final project
 
 This project was made for the Full-Stack web development course at PSU.
-This project is an online Chess game.
+This project is an multiplayer Chess game.
 
 ## Game basics
 
